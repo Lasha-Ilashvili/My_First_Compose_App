@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 fun HomeScreen() {
     Surface(color = MaterialTheme.colorScheme.primary) {
         var listSize by remember {
-            mutableIntStateOf(1)
+            mutableIntStateOf(20)
         }.also {
             if (it.intValue < 1)
                 it.intValue = 1
@@ -46,7 +46,8 @@ fun HomeScreen() {
             ) {
                 Button(
                     onClick = { listSize = ++listSize },
-                    colors = ButtonColors(Color.Black, Color.White, Color.Gray, Color.DarkGray)
+                    colors = ButtonColors(Color.Black, Color.White, Color.Gray, Color.DarkGray),
+                    enabled = listSize < 20
                 ) {
                     Text(text = "Add Text")
                 }
@@ -54,17 +55,20 @@ fun HomeScreen() {
                 Button(
                     onClick = { listSize = --listSize },
                     colors = ButtonColors(Color.Black, Color.White, Color.Gray, Color.DarkGray),
-                    enabled = listSize != 1
+                    enabled = listSize > 1
                 ) {
                     Text(text = "Remove Text")
                 }
             }
 
-            LazyColumn {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
                 items(listSize) {
                     Text(
                         modifier = Modifier.padding(10.dp),
-                        text = it.toString(),
+                        text = (it + 1).toString(),
                         fontSize = 28.sp
                     )
                 }
